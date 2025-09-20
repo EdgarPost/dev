@@ -92,26 +92,18 @@ build_log="/tmp/devenv-build.log"
 podman build -t devenv:latest "$SETUP_DIR" --progress=plain > "$build_log" 2>&1 &
 build_pid=$!
 
-# Monitor build progress
+# Monitor build progress with periodic updates
+log_info "Building container... (downloading base images and dependencies)"
+step_count=0
 while kill -0 $build_pid 2>/dev/null; do
-    if [ -f "$build_log" ]; then
-        # Show latest meaningful progress
-        tail -n 1 "$build_log" | grep -E "(STEP|RUN|COPY|FROM)" | while read line; do
-            case "$line" in
-                *"STEP"*)
-                    step_info=$(echo "$line" | sed 's/.*STEP [0-9]*\/[0-9]*: //')
-                    log_step "$step_info"
-                    ;;
-                *"RUN"*)
-                    if echo "$line" | grep -q "Installing\|Downloading\|Building"; then
-                        action=$(echo "$line" | grep -o "Installing.*\|Downloading.*\|Building.*" | head -1)
-                        log_info "$action"
-                    fi
-                    ;;
-            esac
-        done
-    fi
-    sleep 2
+    sleep 30
+    step_count=$((step_count + 1))
+    case $step_count in
+        1) log_info "Still building... (downloading Ubuntu base image)" ;;
+        2) log_info "Still building... (installing packages)" ;;
+        3) log_info "Still building... (configuring development tools)" ;;
+        *) log_info "Still building... (step $step_count, please wait)" ;;
+    esac
 done
 
 # Wait for build to complete
@@ -139,15 +131,28 @@ if [ -f ~/.devenv/secrets/atuin_key ]; then
 elif command -v atuin &> /dev/null && atuin status >/dev/null 2>&1; then
     log_success "Atuin already configured on host"
 else
-    echo "   Would you like to set up encrypted shell history sync across machines?"
-    echo "   This allows you to access your command history on any machine."
-    echo
-    read -p "   Set up Atuin? (y/N): " setup_atuin </dev/tty
+    # Check if running interactively
+    if [ -t 0 ]; then
+        # Interactive mode
+        echo "   Would you like to set up encrypted shell history sync across machines?"
+        echo "   This allows you to access your command history on any machine."
+        echo
+        read -p "   Set up Atuin? (y/N): " setup_atuin
+
+        if [[ "$setup_atuin" =~ ^[Yy]$ ]]; then
+            log_info "Please register for Atuin history sync:"
+            read -p "   Username: " atuin_username
+            read -p "   Email: " atuin_email
+        else
+            setup_atuin="n"
+        fi
+    else
+        # Non-interactive mode (curl | sh)
+        log_info "Skipping Atuin setup in non-interactive mode"
+        setup_atuin="n"
+    fi
 
     if [[ "$setup_atuin" =~ ^[Yy]$ ]]; then
-        log_info "Please register for Atuin history sync:"
-        read -p "   Username: " atuin_username </dev/tty
-        read -p "   Email: " atuin_email </dev/tty
 
         if [ ! -z "$atuin_username" ] && [ ! -z "$atuin_email" ]; then
             # Test container to set up Atuin
