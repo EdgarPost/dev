@@ -15,6 +15,8 @@ curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-devenv.s
 dev
 ```
 
+> **Interactive Setup:** The scripts will prompt you for choices during installation, even when run via `curl | sh`.
+
 ## 🎯 What Just Happened?
 
 1. **Host Setup**: Installed Podman, Nerd Fonts, and SSH keys

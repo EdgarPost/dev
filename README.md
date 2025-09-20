@@ -30,6 +30,8 @@ curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-devenv.s
 dev
 ```
 
+> **Note:** The scripts will prompt you for choices even when run via `curl | sh`. They read directly from your terminal.
+
 That's it! You now have a complete development environment with all tools configured.
 
 ## 🛠️ What's Included

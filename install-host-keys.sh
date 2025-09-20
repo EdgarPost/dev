@@ -90,14 +90,14 @@ echo "🔽 Downloading encrypted configuration..."
 SETUP_DIR="$HOME/.devenv-setup"
 if [ ! -d "$SETUP_DIR" ]; then
     log_info "Cloning configuration repository..."
-    if ! git clone -q https://github.com/EdgarPost/dev.git "$SETUP_DIR" 2>/dev/null; then
+    if ! git clone -q https://github.com/EdgarPost/dev.git "$SETUP_DIR" </dev/null 2>/dev/null; then
         log_warning "Using current directory as setup source"
         SETUP_DIR="$(pwd)"
     fi
     log_success "Configuration downloaded"
 else
     log_info "Updating existing configuration..."
-    (cd "$SETUP_DIR" && git pull -q origin main 2>/dev/null || true)
+    (cd "$SETUP_DIR" && git pull -q origin main </dev/null 2>/dev/null || true)
     log_success "Configuration updated"
 fi
 
@@ -121,7 +121,7 @@ echo "3) Generate new SSH keys"
 echo "4) Skip SSH key setup"
 echo
 
-read -p "Choose (1-4): " ssh_choice
+read -p "Choose (1-4): " ssh_choice </dev/tty
 
 # Handle empty input
 if [ -z "$ssh_choice" ]; then

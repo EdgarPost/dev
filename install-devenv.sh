@@ -129,12 +129,12 @@ else
     echo "   Would you like to set up encrypted shell history sync across machines?"
     echo "   This allows you to access your command history on any machine."
     echo
-    read -p "   Set up Atuin? (y/N): " setup_atuin
+    read -p "   Set up Atuin? (y/N): " setup_atuin </dev/tty
 
     if [[ "$setup_atuin" =~ ^[Yy]$ ]]; then
         log_info "Please register for Atuin history sync:"
-        read -p "   Username: " atuin_username
-        read -p "   Email: " atuin_email
+        read -p "   Username: " atuin_username </dev/tty
+        read -p "   Email: " atuin_email </dev/tty
 
         if [ ! -z "$atuin_username" ] && [ ! -z "$atuin_email" ]; then
             # Test container to set up Atuin
