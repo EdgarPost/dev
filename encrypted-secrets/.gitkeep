@@ -1,0 +1,12 @@
+# This file ensures the encrypted-secrets directory structure is preserved in git
+#
+# The encrypted-secrets directory contains:
+# - SSH keys (encrypted with age)
+# - Git configuration (encrypted)
+# - API keys and tokens (encrypted)
+# - Personal tool configurations (encrypted)
+#
+# Only .age encrypted files should be committed to this repository.
+# Raw secrets should never be committed.
+#
+# See encrypted-secrets/README.md for complete documentation.

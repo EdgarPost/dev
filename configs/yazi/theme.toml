@@ -1,0 +1,120 @@
+# Catppuccin Mocha theme for Yazi file manager
+# Beautiful file manager with Catppuccin colors
+
+[flavor]
+use = "mocha"
+
+[color]
+fg = "#cdd6f4"
+bg = "#1e1e2e"
+
+# Selection and highlighting
+selected_fg = "#1e1e2e"
+selected_bg = "#cba6f7"
+current_fg = "#1e1e2e"
+current_bg = "#89b4fa"
+
+# Borders and separators
+border_fg = "#6c7086"
+separator_fg = "#6c7086"
+
+# Status line
+status_fg = "#cdd6f4"
+status_bg = "#313244"
+
+# Error and warning
+error_fg = "#f38ba8"
+warning_fg = "#f9e2af"
+
+# File type colors
+executable = "#a6e3a1"
+directory = "#89b4fa"
+symlink = "#f5c2e7"
+broken_symlink = "#f38ba8"
+
+# Git status colors
+git_modified = "#f9e2af"
+git_added = "#a6e3a1"
+git_deleted = "#f38ba8"
+git_untracked = "#94e2d5"
+
+[icons]
+# Directory icons
+folder = ""
+folder_open = ""
+
+# File type icons
+text = ""
+code = ""
+image = ""
+video = ""
+audio = ""
+archive = ""
+pdf = ""
+document = ""
+
+# Programming languages
+rust = ""
+javascript = ""
+typescript = ""
+python = ""
+go = ""
+java = ""
+c = ""
+cpp = ""
+html = ""
+css = ""
+json = ""
+xml = ""
+yaml = ""
+toml = ""
+markdown = ""
+
+# System files
+config = ""
+log = ""
+database = ""
+key = ""
+lock = ""
+
+[preview]
+# Preview settings
+wrap = true
+max_width = 80
+max_height = 30
+
+# Image preview
+image_quality = 75
+ueberzug_scale = 1
+ueberzug_offset = 0
+
+[sorting]
+# Default sorting
+by = "name"
+reverse = false
+dir_first = true
+case_sensitive = false
+
+[opener]
+# Default applications for file types
+text = [
+  { exec = "nvim \"$@\"", block = true, desc = "Edit with Neovim" },
+  { exec = "cat \"$@\"", block = false, desc = "View content" },
+]
+
+image = [
+  { exec = "feh \"$@\"", block = false, desc = "View with feh" },
+]
+
+video = [
+  { exec = "mpv \"$@\"", block = false, desc = "Play with mpv" },
+]
+
+pdf = [
+  { exec = "zathura \"$@\"", block = false, desc = "View with zathura" },
+]
+
+archive = [
+  { exec = "tar -tf \"$1\"", block = true, desc = "List contents" },
+  { exec = "tar -xf \"$1\"", block = true, desc = "Extract here" },
+]

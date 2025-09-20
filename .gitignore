@@ -1,0 +1,91 @@
+# Docker Development Environment - Git Ignore
+
+# Age encryption keys (never commit these!)
+private.key
+*.key
+!public.key
+
+# Raw/unencrypted secrets (never commit these!)
+raw-secrets/
+secrets/
+*.env
+*.pem
+id_rsa
+id_ed25519
+
+# Temporary files
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+.devenv-build.log
+build.log
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Rust
+target/
+Cargo.lock
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Docker
+*.pid
+.dockerignore
+
+# Backup files
+*.backup
+*.bak
+*.orig
+
+# Local configuration overrides
+local.conf
+local.env
+config.local.*
+
+# Test files
+coverage/
+.nyc_output/
+.coverage
+
+# Keep these directories but ignore their contents
+!encrypted-secrets/.gitkeep
+!configs/
+!scripts/

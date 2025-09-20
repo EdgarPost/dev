@@ -1,0 +1,142 @@
+#!/bin/bash
+
+# Universal clipboard utility for Docker development environment
+# Handles clipboard operations across different platforms and environments
+
+set -e
+
+# Function to show usage
+show_usage() {
+    echo "Universal clipboard utility"
+    echo "Usage:"
+    echo "  clip                    # Copy stdin to clipboard"
+    echo "  clip < file.txt         # Copy file contents to clipboard"
+    echo "  echo 'text' | clip      # Copy text to clipboard"
+    echo "  clip -o                 # Output clipboard contents"
+    echo "  clip --paste            # Output clipboard contents"
+    echo "  clip --help             # Show this help"
+    echo
+    echo "Examples:"
+    echo "  git log --oneline | clip"
+    echo "  clip < ~/.ssh/id_rsa.pub"
+    echo "  clip -o | grep 'pattern'"
+}
+
+# Function to detect clipboard command
+detect_clipboard() {
+    if command -v pbcopy >/dev/null 2>&1 && command -v pbpaste >/dev/null 2>&1; then
+        # macOS
+        echo "macos"
+    elif command -v xclip >/dev/null 2>&1; then
+        # Linux with X11
+        echo "xclip"
+    elif command -v wl-copy >/dev/null 2>&1 && command -v wl-paste >/dev/null 2>&1; then
+        # Linux with Wayland
+        echo "wayland"
+    elif [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+        # SSH session - use OSC52
+        echo "osc52"
+    else
+        # Fallback to tmux if available
+        if command -v tmux >/dev/null 2>&1 && [ -n "$TMUX" ]; then
+            echo "tmux"
+        else
+            echo "none"
+        fi
+    fi
+}
+
+# Function to copy using OSC52 escape sequences
+copy_osc52() {
+    local input="$1"
+    local encoded=$(printf "%s" "$input" | base64 | tr -d '\n')
+    printf "\033]52;c;%s\033\\" "$encoded" > /dev/tty
+}
+
+# Function to copy to clipboard
+copy_to_clipboard() {
+    local clipboard_type=$(detect_clipboard)
+    local input
+
+    # Read input from stdin or argument
+    if [ -t 0 ]; then
+        # No stdin, use argument if provided
+        input="$1"
+    else
+        # Read from stdin
+        input=$(cat)
+    fi
+
+    case "$clipboard_type" in
+        "macos")
+            printf "%s" "$input" | pbcopy
+            ;;
+        "xclip")
+            printf "%s" "$input" | xclip -selection clipboard
+            ;;
+        "wayland")
+            printf "%s" "$input" | wl-copy
+            ;;
+        "osc52")
+            copy_osc52 "$input"
+            ;;
+        "tmux")
+            printf "%s" "$input" | tmux load-buffer -
+            ;;
+        "none")
+            echo "Error: No clipboard utility available" >&2
+            echo "Available options:" >&2
+            echo "  - Install xclip (Linux X11)" >&2
+            echo "  - Install wl-clipboard (Linux Wayland)" >&2
+            echo "  - Use over SSH (OSC52 support required in terminal)" >&2
+            return 1
+            ;;
+    esac
+
+    # Show confirmation
+    local char_count=$(printf "%s" "$input" | wc -c)
+    echo "✓ Copied $char_count characters to clipboard" >&2
+}
+
+# Function to paste from clipboard
+paste_from_clipboard() {
+    local clipboard_type=$(detect_clipboard)
+
+    case "$clipboard_type" in
+        "macos")
+            pbpaste
+            ;;
+        "xclip")
+            xclip -selection clipboard -o
+            ;;
+        "wayland")
+            wl-paste
+            ;;
+        "tmux")
+            tmux show-buffer
+            ;;
+        "osc52"|"none")
+            echo "Error: Paste not supported for $clipboard_type" >&2
+            echo "Use your terminal's paste function instead" >&2
+            return 1
+            ;;
+    esac
+}
+
+# Main logic
+case "${1:-}" in
+    "-h"|"--help")
+        show_usage
+        ;;
+    "-o"|"--paste")
+        paste_from_clipboard
+        ;;
+    "")
+        # No arguments, copy from stdin
+        copy_to_clipboard
+        ;;
+    *)
+        # Copy argument to clipboard
+        copy_to_clipboard "$1"
+        ;;
+esac

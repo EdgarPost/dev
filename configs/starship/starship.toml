@@ -1,0 +1,168 @@
+# Starship prompt configuration with Catppuccin Mocha theme
+# Beautiful, fast, and informative prompt for any shell
+
+format = """
+[](#cba6f7)\
+$os\
+$username\
+[](bg:#f38ba8 fg:#cba6f7)\
+$directory\
+[](fg:#f38ba8 bg:#fab387)\
+$git_branch\
+$git_status\
+[](fg:#fab387 bg:#a6e3a1)\
+$nodejs\
+$python\
+$rust\
+$golang\
+$php\
+[](fg:#a6e3a1 bg:#89b4fa)\
+$docker_context\
+$kubernetes\
+[](fg:#89b4fa bg:#b4befe)\
+$time\
+[ ](fg:#b4befe)\
+"""
+
+# Disable the blank line at the start of the prompt
+add_newline = false
+
+# Operating system icon
+[os]
+style = "bg:#cba6f7 fg:#1e1e2e"
+disabled = false
+
+[os.symbols]
+Windows = "󰍲"
+Ubuntu = "󰕈"
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = "󰀵"
+Manjaro = ""
+Linux = "󰌽"
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+Arch = "󰣇"
+Artix = "󰣇"
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+
+# Username
+[username]
+show_always = true
+style_user = "bg:#cba6f7 fg:#1e1e2e"
+style_root = "bg:#cba6f7 fg:#1e1e2e"
+format = '[ $user ]($style)'
+disabled = false
+
+# Directory
+[directory]
+style = "bg:#f38ba8 fg:#1e1e2e"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙"
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"Projects" = "󰲋"
+
+# Git branch
+[git_branch]
+symbol = ""
+style = "bg:#fab387 fg:#1e1e2e"
+format = '[ $symbol $branch ]($style)'
+
+# Git status
+[git_status]
+style = "bg:#fab387 fg:#1e1e2e"
+format = '[$all_status$ahead_behind ]($style)'
+
+# Node.js
+[nodejs]
+symbol = ""
+style = "bg:#a6e3a1 fg:#1e1e2e"
+format = '[ $symbol ($version) ]($style)'
+
+# Python
+[python]
+symbol = ""
+style = "bg:#a6e3a1 fg:#1e1e2e"
+format = '[ $symbol ($version) ]($style)'
+
+# Rust
+[rust]
+symbol = ""
+style = "bg:#a6e3a1 fg:#1e1e2e"
+format = '[ $symbol ($version) ]($style)'
+
+# Go
+[golang]
+symbol = ""
+style = "bg:#a6e3a1 fg:#1e1e2e"
+format = '[ $symbol ($version) ]($style)'
+
+# PHP
+[php]
+symbol = ""
+style = "bg:#a6e3a1 fg:#1e1e2e"
+format = '[ $symbol ($version) ]($style)'
+
+# Docker
+[docker_context]
+symbol = ""
+style = "bg:#89b4fa fg:#1e1e2e"
+format = '[ $symbol $context ]($style)'
+
+# Kubernetes
+[kubernetes]
+symbol = "󱃾"
+style = "bg:#89b4fa fg:#1e1e2e"
+format = '[ $symbol $context\($namespace\) ]($style)'
+disabled = false
+
+# Time
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "bg:#b4befe fg:#1e1e2e"
+format = '[ ♥ $time ]($style)'
+
+# Catppuccin Mocha palette
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
+
+palette = "catppuccin_mocha"
