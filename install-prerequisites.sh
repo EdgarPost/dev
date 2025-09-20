@@ -214,9 +214,10 @@ case "$(uname)" in
             log_info "Downloading and installing Podman..."
             if brew install podman; then
                 log_info "Initializing Podman machine (downloading VM image, ~5-10 minutes)..."
-                if podman machine init; then
+                echo "   Progress will be shown below:"
+                if podman machine init 2>&1; then
                     log_info "Starting Podman machine..."
-                    podman machine start >/dev/null 2>&1
+                    podman machine start 2>&1
                     log_success "Podman installed and started"
                 else
                     log_warning "Podman machine init failed, but continuing..."
@@ -228,7 +229,7 @@ case "$(uname)" in
         else
             if ! podman machine list --format json | jq -r '.[0].Running' | grep -q true 2>/dev/null; then
                 log_info "Starting Podman machine..."
-                podman machine start >/dev/null 2>&1
+                podman machine start 2>&1
             fi
             log_success "Podman ready"
         fi
