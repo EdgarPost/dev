@@ -90,8 +90,7 @@ echo "🔽 Downloading encrypted configuration..."
 SETUP_DIR="$HOME/.devenv-setup"
 if [ ! -d "$SETUP_DIR" ]; then
     log_info "Cloning configuration repository..."
-    # Replace with your actual repository URL
-    if ! git clone -q https://github.com/edgarpost/docker-dev-env.git "$SETUP_DIR" 2>/dev/null; then
+    if ! git clone -q https://github.com/EdgarPost/dev.git "$SETUP_DIR" 2>/dev/null; then
         log_warning "Using current directory as setup source"
         SETUP_DIR="$(pwd)"
     fi
@@ -123,6 +122,12 @@ echo "4) Skip SSH key setup"
 echo
 
 read -p "Choose (1-4): " ssh_choice
+
+# Handle empty input
+if [ -z "$ssh_choice" ]; then
+    log_warning "No option selected. Defaulting to option 2 (use existing SSH keys)"
+    ssh_choice="2"
+fi
 
 case $ssh_choice in
     1)
@@ -179,7 +184,8 @@ case $ssh_choice in
         log_warning "Skipping SSH key setup"
         ;;
     *)
-        log_error "Invalid choice"
+        log_error "Invalid choice: '$ssh_choice'"
+        log_error "Please choose 1, 2, 3, or 4"
         exit 1
         ;;
 esac
@@ -275,7 +281,7 @@ echo "✅ SSH key setup complete!"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "🚀 Next steps:"
 echo "   Run the following command to set up your development environment:"
-echo "   ${GREEN}curl -fsSL https://raw.githubusercontent.com/you/docker-dev-env/main/install-devenv.sh | sh${NC}"
+echo "   ${GREEN}curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-devenv.sh | sh${NC}"
 echo
 echo "💡 What was set up:"
 echo "   • SSH keys configured and added to agent"

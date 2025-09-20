@@ -49,6 +49,12 @@ echo
 
 read -p "Choose an option (1-8): " choice
 
+# Handle empty input
+if [ -z "$choice" ]; then
+    log_warning "No option selected. Defaulting to option 7 (show status)"
+    choice="7"
+fi
+
 case $choice in
     1)
         echo
@@ -98,7 +104,8 @@ case $choice in
         exit 0
         ;;
     *)
-        log_error "Invalid choice. Please select 1-8."
+        log_error "Invalid choice: '$choice'"
+        log_error "Please select 1-8."
         exit 1
         ;;
 esac

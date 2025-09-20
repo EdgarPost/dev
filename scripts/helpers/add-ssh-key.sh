@@ -29,6 +29,12 @@ echo
 
 read -p "Choose option (1-4): " ssh_option
 
+# Handle empty input
+if [ -z "$ssh_option" ]; then
+    log_warning "No option selected. Defaulting to option 1 (use existing SSH key)"
+    ssh_option="1"
+fi
+
 case $ssh_option in
     1)
         # Use existing SSH key
@@ -142,7 +148,8 @@ case $ssh_option in
         log_warning "Note: You'll need to set up SSH keys manually for Git access"
         ;;
     *)
-        log_error "Invalid option"
+        log_error "Invalid option: '$ssh_option'"
+        log_error "Please choose 1, 2, 3, or 4"
         exit 1
         ;;
 esac

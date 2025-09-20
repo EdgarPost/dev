@@ -43,7 +43,7 @@ echo "📋 Checking prerequisites..."
 
 if ! command -v podman &> /dev/null; then
     log_error "Podman not found. Please run the SSH key setup script first."
-    echo "   ${BLUE}curl -fsSL https://raw.githubusercontent.com/you/docker-dev-env/main/install-host-keys.sh | sh${NC}"
+    echo "   ${BLUE}curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-host-keys.sh | sh${NC}"
     exit 1
 else
     log_success "Podman found"
@@ -53,7 +53,7 @@ fi
 SETUP_DIR="$HOME/.devenv-setup"
 if [ ! -d "$SETUP_DIR" ]; then
     log_info "Downloading setup files..."
-    git clone -q https://github.com/edgarpost/docker-dev-env.git "$SETUP_DIR"
+    git clone -q https://github.com/EdgarPost/dev.git "$SETUP_DIR"
     log_success "Setup files downloaded"
 else
     log_success "Setup files found"

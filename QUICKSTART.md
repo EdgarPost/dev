@@ -6,10 +6,10 @@ Get your Docker development environment running in 5 minutes!
 
 ```bash
 # Step 1: Set up SSH keys and host dependencies
-curl -fsSL https://raw.githubusercontent.com/edgarpost/docker-dev-env/main/install-host-keys.sh | sh
+curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-host-keys.sh | sh
 
 # Step 2: Build and configure development environment
-curl -fsSL https://raw.githubusercontent.com/edgarpost/docker-dev-env/main/install-devenv.sh | sh
+curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-devenv.sh | sh
 
 # Step 3: Enter your development environment
 dev

@@ -506,7 +506,7 @@ git add .
 git commit -m "Initial devenv setup"
 
 # Add remote (replace with your repo)
-git remote add origin https://github.com/yourusername/my-devenv.git
+git remote add origin https://github.com/EdgarPost/dev.git
 git push -u origin main
 
 # Auto-sync changes

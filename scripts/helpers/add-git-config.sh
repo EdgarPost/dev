@@ -40,6 +40,12 @@ echo
 
 read -p "Choose option (1-3): " signing_option
 
+# Handle empty input
+if [ -z "$signing_option" ]; then
+    log_warning "No option selected. Defaulting to option 3 (skip signing)"
+    signing_option="3"
+fi
+
 signing_config=""
 case $signing_option in
     1)

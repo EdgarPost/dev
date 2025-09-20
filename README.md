@@ -21,10 +21,10 @@
 
 ```bash
 # Step 1: Set up SSH keys and host dependencies
-curl -fsSL https://raw.githubusercontent.com/edgarpost/docker-dev-env/main/install-host-keys.sh | sh
+curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-host-keys.sh | sh
 
 # Step 2: Build and configure development environment
-curl -fsSL https://raw.githubusercontent.com/edgarpost/docker-dev-env/main/install-devenv.sh | sh
+curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-devenv.sh | sh
 
 # Step 3: Enter your development environment
 dev
@@ -177,12 +177,12 @@ tmux attach -t myapp
 
 1. **Host setup** (SSH keys, fonts, Podman):
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/edgarpost/docker-dev-env/main/install-host-keys.sh | sh
+   curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-host-keys.sh | sh
    ```
 
 2. **Development environment**:
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/edgarpost/docker-dev-env/main/install-devenv.sh | sh
+   curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-devenv.sh | sh
    ```
 
 3. **Start developing**:
@@ -297,7 +297,7 @@ Use the container in GitHub Actions:
 ```yaml
 - name: Setup Development Environment
   run: |
-    curl -fsSL https://raw.githubusercontent.com/edgarpost/docker-dev-env/main/install-devenv.sh | sh
+    curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-devenv.sh | sh
     dev "npm test"
 ```
 
