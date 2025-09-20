@@ -5,8 +5,8 @@ Get your Docker development environment running in 5 minutes!
 ## ⚡ One-Command Setup
 
 ```bash
-# Step 1: Set up SSH keys and host dependencies
-curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-host-keys.sh | sh
+# Step 1: Set up prerequisites (SSH keys, Podman, fonts)
+curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-prerequisites.sh | sh
 
 # Step 2: Build and configure development environment
 curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-devenv.sh | sh

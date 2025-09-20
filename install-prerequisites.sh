@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Docker Development Environment - SSH Key Setup
-# Sets up SSH keys and host dependencies with guided experience
+# Docker Development Environment - Prerequisites Setup
+# Sets up SSH keys, container runtime, fonts, and other host dependencies
 
 set -e
 
-echo "🔐 Docker Development Environment - SSH Key Setup"
-echo "=================================================="
+echo "🔧 Docker Development Environment - Prerequisites Setup"
+echo "======================================================="
 echo
 
 # Color codes for output

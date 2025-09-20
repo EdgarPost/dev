@@ -20,8 +20,8 @@
 ### One-Command Setup
 
 ```bash
-# Step 1: Set up SSH keys and host dependencies
-curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-host-keys.sh | sh
+# Step 1: Set up prerequisites (SSH keys, Podman, fonts)
+curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-prerequisites.sh | sh
 
 # Step 2: Build and configure development environment
 curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-devenv.sh | sh
@@ -179,7 +179,7 @@ tmux attach -t myapp
 
 1. **Host setup** (SSH keys, fonts, Podman):
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-host-keys.sh | sh
+   curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-prerequisites.sh | sh
    ```
 
 2. **Development environment**:

@@ -173,7 +173,7 @@ if command -v podman &> /dev/null; then
     fi
 else
     log_error "Podman not installed"
-    echo "      Run: ./install-host-keys.sh"
+    echo "      Run: ./install-prerequisites.sh"
 fi
 echo
 

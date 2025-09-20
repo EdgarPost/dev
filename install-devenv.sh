@@ -46,7 +46,7 @@ if ! command -v podman &> /dev/null; then
     log_info "Running prerequisite setup (this includes SSH keys, Podman, and fonts)..."
 
     # Download and run the prerequisite script
-    if curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-host-keys.sh | sh; then
+    if curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-prerequisites.sh | sh; then
         log_success "Prerequisites installed successfully"
     else
         log_error "Failed to install prerequisites"
