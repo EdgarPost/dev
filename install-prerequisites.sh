@@ -199,18 +199,29 @@ case "$(uname)" in
     Darwin)
         log_info "Installing Nerd Fonts for macOS..."
         if ! brew list --cask font-fira-code-nerd-font &>/dev/null; then
-            brew install --cask font-fira-code-nerd-font >/dev/null 2>&1
-            log_success "Nerd Fonts installed"
+            log_info "Downloading Fira Code Nerd Font (this may take 2-3 minutes)..."
+            if brew install --cask font-fira-code-nerd-font; then
+                log_success "Nerd Fonts installed"
+            else
+                log_warning "Font installation failed, but continuing..."
+            fi
         else
             log_success "Nerd Fonts already installed"
         fi
 
         log_info "Installing Podman..."
         if ! command -v podman &> /dev/null; then
-            brew install podman >/dev/null 2>&1
-            podman machine init >/dev/null 2>&1
-            podman machine start >/dev/null 2>&1
-            log_success "Podman installed and started"
+            log_info "Downloading and installing Podman..."
+            if brew install podman; then
+                log_info "Initializing Podman machine..."
+                podman machine init >/dev/null 2>&1
+                log_info "Starting Podman machine..."
+                podman machine start >/dev/null 2>&1
+                log_success "Podman installed and started"
+            else
+                log_error "Failed to install Podman"
+                exit 1
+            fi
         else
             if ! podman machine list --format json | jq -r '.[0].Running' | grep -q true 2>/dev/null; then
                 log_info "Starting Podman machine..."
