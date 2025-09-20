@@ -214,13 +214,28 @@ case "$(uname)" in
             log_info "Downloading and installing Podman..."
             if brew install podman; then
                 log_info "Initializing Podman machine (downloading VM image, ~5-10 minutes)..."
-                echo "   Progress will be shown below:"
-                if podman machine init 2>&1; then
+
+                # Run podman machine init in background with progress monitoring
+                podman machine init > /tmp/podman-init.log 2>&1 &
+                init_pid=$!
+
+                # Monitor progress
+                log_info "Downloading VM image... (this may take several minutes)"
+                while kill -0 $init_pid 2>/dev/null; do
+                    sleep 30
+                    log_info "Still initializing Podman machine... (please wait)"
+                done
+
+                # Wait for completion and check result
+                wait $init_pid
+                if [ $? -eq 0 ]; then
+                    log_success "Podman machine initialized"
                     log_info "Starting Podman machine..."
                     podman machine start 2>&1
                     log_success "Podman installed and started"
                 else
-                    log_warning "Podman machine init failed, but continuing..."
+                    log_warning "Podman machine init failed, check /tmp/podman-init.log for details"
+                    log_warning "Continuing anyway..."
                 fi
             else
                 log_error "Failed to install Podman"
