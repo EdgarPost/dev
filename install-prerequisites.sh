@@ -213,11 +213,14 @@ case "$(uname)" in
         if ! command -v podman &> /dev/null; then
             log_info "Downloading and installing Podman..."
             if brew install podman; then
-                log_info "Initializing Podman machine..."
-                podman machine init >/dev/null 2>&1
-                log_info "Starting Podman machine..."
-                podman machine start >/dev/null 2>&1
-                log_success "Podman installed and started"
+                log_info "Initializing Podman machine (downloading VM image, ~5-10 minutes)..."
+                if podman machine init; then
+                    log_info "Starting Podman machine..."
+                    podman machine start >/dev/null 2>&1
+                    log_success "Podman installed and started"
+                else
+                    log_warning "Podman machine init failed, but continuing..."
+                fi
             else
                 log_error "Failed to install Podman"
                 exit 1
