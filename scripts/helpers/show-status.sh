@@ -13,10 +13,10 @@ RED='\033[0;31m'
 PURPLE='\033[0;35m'
 NC='\033[0m'
 
-log_success() { echo -e "   ${GREEN}✓${NC} $1"; }
-log_warning() { echo -e "   ${YELLOW}⚠${NC} $1"; }
-log_error() { echo -e "   ${RED}❌${NC} $1"; }
-log_info() { echo -e "   ${BLUE}ℹ${NC} $1"; }
+log_success() { printf "   ${GREEN}✓${NC} %s\n" "$1"; }
+log_warning() { printf "   ${YELLOW}⚠${NC} %s\n" "$1"; }
+log_error() { printf "   ${RED}❌${NC} %s\n" "$1"; }
+log_info() { printf "   ${BLUE}ℹ${NC} %s\n" "$1"; }
 
 echo "📊 Docker Development Environment - Configuration Status"
 echo "======================================================="

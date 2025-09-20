@@ -19,23 +19,23 @@ NC='\033[0m' # No Color
 
 # Helper functions
 log_info() {
-    echo -e "   ${BLUE}ℹ${NC} $1"
+    printf "   ${BLUE}ℹ${NC} %s\n" "$1"
 }
 
 log_success() {
-    echo -e "   ${GREEN}✓${NC} $1"
+    printf "   ${GREEN}✓${NC} %s\n" "$1"
 }
 
 log_warning() {
-    echo -e "   ${YELLOW}⚠${NC} $1"
+    printf "   ${YELLOW}⚠${NC} %s\n" "$1"
 }
 
 log_error() {
-    echo -e "   ${RED}❌${NC} $1"
+    printf "   ${RED}❌${NC} %s\n" "$1"
 }
 
 log_step() {
-    echo -e "   ${PURPLE}→${NC} $1"
+    printf "   ${PURPLE}→${NC} %s\n" "$1"
 }
 
 # Check prerequisites
@@ -43,7 +43,7 @@ echo "📋 Checking prerequisites..."
 
 if ! command -v podman &> /dev/null; then
     log_error "Podman not found. Please run the SSH key setup script first."
-    echo "   ${BLUE}curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-host-keys.sh | sh${NC}"
+    log_info "curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-host-keys.sh | sh"
     exit 1
 else
     log_success "Podman found"
@@ -291,7 +291,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "🚀 Quick start:"
 echo "   1. Restart your terminal (or run: ${BLUE}source $shell_profile${NC})"
 echo "   2. Type '${GREEN}dev${NC}' to enter your development environment"
-echo "   3. Your projects are available in ${BLUE}/workspace/projects/${NC}"
+printf "   3. Your projects are available in %s/workspace/projects/%s\n" "${BLUE}" "${NC}"
 echo
 echo "📚 Available tools:"
 echo "   • ${PURPLE}Neovim${NC} (nvim) with LazyVim and Catppuccin Mocha theme"
@@ -318,8 +318,8 @@ echo "   • README.md - Complete tool documentation"
 echo "   • CUSTOMIZATION.md - Personal configuration guide"
 echo
 echo "🔧 Next steps:"
-echo "   • Add projects to ${BLUE}~/Projects/${NC}"
-echo "   • Customize configs in ${BLUE}~/.devenv/config/${NC}"
+printf "   • Add projects to %s~/Projects/%s\n" "${BLUE}" "${NC}"
+printf "   • Customize configs in %s~/.devenv/config/%s\n" "${BLUE}" "${NC}"
 echo "   • Set up git credentials in the container"
 
 if [ ! -f ~/.devenv/secrets/atuin_key ]; then

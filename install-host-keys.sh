@@ -18,19 +18,19 @@ NC='\033[0m' # No Color
 
 # Helper functions
 log_info() {
-    echo -e "   ${BLUE}ℹ${NC} $1"
+    printf "   ${BLUE}ℹ${NC} %s\n" "$1"
 }
 
 log_success() {
-    echo -e "   ${GREEN}✓${NC} $1"
+    printf "   ${GREEN}✓${NC} %s\n" "$1"
 }
 
 log_warning() {
-    echo -e "   ${YELLOW}⚠${NC} $1"
+    printf "   ${YELLOW}⚠${NC} %s\n" "$1"
 }
 
 log_error() {
-    echo -e "   ${RED}❌${NC} $1"
+    printf "   ${RED}❌${NC} %s\n" "$1"
 }
 
 # Step 1: Check prerequisites
