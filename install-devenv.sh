@@ -42,9 +42,22 @@ log_step() {
 echo "📋 Checking prerequisites..."
 
 if ! command -v podman &> /dev/null; then
-    log_error "Podman not found. Please run the SSH key setup script first."
-    log_info "curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-host-keys.sh | sh"
-    exit 1
+    log_warning "Podman not found. Installing prerequisites..."
+    log_info "Running prerequisite setup (this includes SSH keys, Podman, and fonts)..."
+
+    # Download and run the prerequisite script
+    if curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-host-keys.sh | sh; then
+        log_success "Prerequisites installed successfully"
+    else
+        log_error "Failed to install prerequisites"
+        exit 1
+    fi
+
+    # Verify Podman is now available
+    if ! command -v podman &> /dev/null; then
+        log_error "Podman still not found after prerequisite installation"
+        exit 1
+    fi
 else
     log_success "Podman found"
 fi
