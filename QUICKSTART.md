@@ -2,20 +2,24 @@
 
 Get your Docker development environment running in 5 minutes!
 
-## ⚡ One-Command Setup
+## ⚡ Simple Setup
 
 ```bash
+# Clone the repository
+git clone https://github.com/EdgarPost/dev.git
+cd dev
+
 # Step 1: Set up prerequisites (SSH keys, Podman, fonts)
-curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-prerequisites.sh | sh
+./install-prerequisites.sh
 
 # Step 2: Build and configure development environment
-curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-devenv.sh | sh
+./install-devenv.sh
 
 # Step 3: Enter your development environment
 dev
 ```
 
-> **Interactive Setup:** The scripts will prompt you for choices during installation, even when run via `curl | sh`.
+> **Local execution provides:** Full interactivity, better progress display, easy debugging, and code review capability.
 
 ## 🎯 What Just Happened?
 

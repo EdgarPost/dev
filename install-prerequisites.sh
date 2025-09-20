@@ -121,7 +121,7 @@ echo "3) Generate new SSH keys"
 echo "4) Skip SSH key setup"
 echo
 
-read -p "Choose (1-4): " ssh_choice </dev/tty
+read -p "Choose (1-4): " ssh_choice
 
 # Handle empty input
 if [ -z "$ssh_choice" ]; then
@@ -213,30 +213,11 @@ case "$(uname)" in
         if ! command -v podman &> /dev/null; then
             log_info "Downloading and installing Podman..."
             if brew install podman; then
-                log_info "Initializing Podman machine (downloading VM image, ~5-10 minutes)..."
-
-                # Run podman machine init in background with progress monitoring
-                podman machine init > /tmp/podman-init.log 2>&1 &
-                init_pid=$!
-
-                # Monitor progress
-                log_info "Downloading VM image... (this may take several minutes)"
-                while kill -0 $init_pid 2>/dev/null; do
-                    sleep 30
-                    log_info "Still initializing Podman machine... (please wait)"
-                done
-
-                # Wait for completion and check result
-                wait $init_pid
-                if [ $? -eq 0 ]; then
-                    log_success "Podman machine initialized"
-                    log_info "Starting Podman machine..."
-                    podman machine start 2>&1
-                    log_success "Podman installed and started"
-                else
-                    log_warning "Podman machine init failed, check /tmp/podman-init.log for details"
-                    log_warning "Continuing anyway..."
-                fi
+                log_info "Initializing Podman machine (this may take 5-10 minutes)..."
+                podman machine init
+                log_info "Starting Podman machine..."
+                podman machine start
+                log_success "Podman installed and started"
             else
                 log_error "Failed to install Podman"
                 exit 1
@@ -244,7 +225,7 @@ case "$(uname)" in
         else
             if ! podman machine list --format json | jq -r '.[0].Running' | grep -q true 2>/dev/null; then
                 log_info "Starting Podman machine..."
-                podman machine start 2>&1
+                podman machine start
             fi
             log_success "Podman ready"
         fi

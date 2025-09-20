@@ -42,22 +42,8 @@ log_step() {
 echo "📋 Checking prerequisites..."
 
 if ! command -v podman &> /dev/null; then
-    log_warning "Podman not found. Installing prerequisites..."
-    log_info "Running prerequisite setup (this includes SSH keys, Podman, and fonts)..."
-
-    # Download and run the prerequisite script
-    if curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-prerequisites.sh | sh; then
-        log_success "Prerequisites installed successfully"
-    else
-        log_error "Failed to install prerequisites"
-        exit 1
-    fi
-
-    # Verify Podman is now available
-    if ! command -v podman &> /dev/null; then
-        log_error "Podman still not found after prerequisite installation"
-        exit 1
-    fi
+    log_error "Podman not found. Please run ./install-prerequisites.sh first"
+    exit 1
 else
     log_success "Podman found"
 fi
@@ -87,39 +73,14 @@ echo "🔨 Building development container..."
 log_info "This may take 5-10 minutes on first run..."
 echo
 
-# Build with progress monitoring
-build_log="/tmp/devenv-build.log"
-podman build -t devenv:latest "$SETUP_DIR" --progress=plain > "$build_log" 2>&1 &
-build_pid=$!
-
-# Monitor build progress with periodic updates
-log_info "Building container... (downloading base images and dependencies)"
-step_count=0
-while kill -0 $build_pid 2>/dev/null; do
-    sleep 30
-    step_count=$((step_count + 1))
-    case $step_count in
-        1) log_info "Still building... (downloading Ubuntu base image)" ;;
-        2) log_info "Still building... (installing packages)" ;;
-        3) log_info "Still building... (configuring development tools)" ;;
-        *) log_info "Still building... (step $step_count, please wait)" ;;
-    esac
-done
-
-# Wait for build to complete
-wait $build_pid
-build_result=$?
-
-if [ $build_result -eq 0 ]; then
+# Build container
+log_info "Building container (this may take 5-10 minutes)..."
+if podman build -t devenv:latest "$SETUP_DIR"; then
     log_success "Container built successfully"
 else
     log_error "Container build failed"
-    echo "   Check the build log: $build_log"
     exit 1
 fi
-
-# Clean up build log
-rm -f "$build_log"
 
 echo
 
@@ -131,25 +92,15 @@ if [ -f ~/.devenv/secrets/atuin_key ]; then
 elif command -v atuin &> /dev/null && atuin status >/dev/null 2>&1; then
     log_success "Atuin already configured on host"
 else
-    # Check if running interactively
-    if [ -t 0 ]; then
-        # Interactive mode
-        echo "   Would you like to set up encrypted shell history sync across machines?"
-        echo "   This allows you to access your command history on any machine."
-        echo
-        read -p "   Set up Atuin? (y/N): " setup_atuin
+    echo "   Would you like to set up encrypted shell history sync across machines?"
+    echo "   This allows you to access your command history on any machine."
+    echo
+    read -p "   Set up Atuin? (y/N): " setup_atuin
 
-        if [[ "$setup_atuin" =~ ^[Yy]$ ]]; then
-            log_info "Please register for Atuin history sync:"
-            read -p "   Username: " atuin_username
-            read -p "   Email: " atuin_email
-        else
-            setup_atuin="n"
-        fi
-    else
-        # Non-interactive mode (curl | sh)
-        log_info "Skipping Atuin setup in non-interactive mode"
-        setup_atuin="n"
+    if [[ "$setup_atuin" =~ ^[Yy]$ ]]; then
+        log_info "Please register for Atuin history sync:"
+        read -p "   Username: " atuin_username
+        read -p "   Email: " atuin_email
     fi
 
     if [[ "$setup_atuin" =~ ^[Yy]$ ]]; then

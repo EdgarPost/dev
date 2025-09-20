@@ -17,20 +17,24 @@
 
 ## 🚀 Quick Start
 
-### One-Command Setup
+### Recommended Setup
 
 ```bash
+# Clone the repository
+git clone https://github.com/EdgarPost/dev.git
+cd dev
+
 # Step 1: Set up prerequisites (SSH keys, Podman, fonts)
-curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-prerequisites.sh | sh
+./install-prerequisites.sh
 
 # Step 2: Build and configure development environment
-curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-devenv.sh | sh
+./install-devenv.sh
 
 # Step 3: Enter your development environment
 dev
 ```
 
-> **Note:** The scripts will prompt you for choices even when run via `curl | sh`. They read directly from your terminal.
+> **Why local execution?** Running scripts locally provides full interactivity, better progress output, easier debugging, and the ability to review code before execution.
 
 That's it! You now have a complete development environment with all tools configured.
 
@@ -177,20 +181,18 @@ tmux attach -t myapp
 
 ### Setting Up a New Machine
 
-1. **Host setup** (SSH keys, fonts, Podman):
-   ```bash
-   curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-prerequisites.sh | sh
-   ```
+```bash
+# Clone and run setup scripts
+git clone https://github.com/EdgarPost/dev.git
+cd dev
 
-2. **Development environment**:
-   ```bash
-   curl -fsSL https://raw.githubusercontent.com/EdgarPost/dev/main/install-devenv.sh | sh
-   ```
+# Run setup scripts
+./install-prerequisites.sh
+./install-devenv.sh
 
-3. **Start developing**:
-   ```bash
-   dev
-   ```
+# Start developing
+dev
+```
 
 ### History Sync with Atuin
 
